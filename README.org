@@ -11,7 +11,11 @@ a fork of this repository and create a directory whose name is
 ~firstName_lastName~
 
 where your last name is separated from your first with an underscore
-"_".  Once you have done this copy a picture of your face into the
+"_".  For example, my name is Evan Misshula. My directory would be:
+
+~Evan Misshula~
+
+ Once you have done this copy a picture of your face into the
 directory.  Next you will send me a pull request from your master to
 add it to the repo. If you have a team that consists of more than the
 person who has uploaded the file, please send me a picture of everyone
@@ -28,9 +32,9 @@ repository in your github account.
 [[file:images/fork.png]]
 
 You don't edit anything on github.  Github stores your backup.  In
-order to edit your repo you have to copy it to your machine.  This requires you
-to download git to your local machine.  There are several ways to do
-this.
+order to edit your repo you have to copy it to your machine.  This
+requires you to download the git program to your local machine.  You
+will then need to install it.  There are several ways to do this.
 
 * Mac and windows
 
@@ -71,7 +75,26 @@ larger reference.
 
 http://pcsupport.about.com/od/windows7/a/command-prompt-windows-7.htm
 
-* Decide where to place your files
+* Command line tutorial
+The command line is the primary way to interact with your operating system.  We are only going
+to use a few commands but we have to use different commands depending whether you are running
+windows or mac.  Mac and Linux systems have mostly the same commands since Mac OS X is built on top
+of Berkley Software Distribution Unix.  Linux and Mac are sometimes called *nix systemes. Windows
+NT (the forerunner of Windows 7 and Windows 8) was built by the designers of Digital Equipment Corporation
+(DEC) Vax system.
+
+Here are the commmands we will use:
+
+| *nix | windows   | puropse                                   |
+|------+-----------+-------------------------------------------|
+| pwd  | echo %cd% | tell us what directory we are in          |
+| ls   | dir       | list the files in the directory we are in |
+| cp   | copy      | copy files from one place to another      |
+| cd   | cd        | change directory                          |
+| .    | .         | means here                                |
+| ..   | ..        | up one directory                          | 
+
+* The filesystem  
 ** Mac OS X
 
 Your documents are in: 
@@ -97,30 +120,49 @@ Your Documents are in C:\Users\<your name>\Documents.  In the terminal type:
 Tell Git your name so your commits will be properly labeled. Type
 everything after the $ here:
 
+#+BEGIN_SRC sh :exports code
+git config --global user.name "Your Name"
+#+END_SRC
 
-~git config --global user.name "Your Name"~
 
 
 Tell Git the email address that will be associated with your Git
 commits. The email you specify should be the same one you used to sign
 up for GitHub.
 
-~git config --global user.email "YOUR EMAIL ADDRESS"~
- 
+#+BEGIN_SRC sh :exports code
+git config --global user.email "YOUR EMAIL ADDRESS"
+#+END_SRC
+
 * Clone the repository from your github account to your local machine
 
-Now go back to your browser and open up the repo that you forked.  On the right side of 
-the page near the top, there is a box under settings.  In that box is the URL of your fork.
-Here is a picture.
+Now go back to your browser and open up the repo that you forked.  On
+the right side of the page near the top, there is a box under
+settings.  *BE CAREFUL* This is tricky. In that box is the URL of your
+fork.  Here is a picture.
 
 [[file:images/url.png]]
 
-Now that you know what you are looking for.  Copy it and clone it by typing:
+Make sure the protocol is set to https. The others require you to set
+up ssh keys which are worth a whole tutorial to themselves.  Now that
+you know what you are looking for.  Copy it to the clipboard by
+left-clicking the button. You clone it by typing:
 
-~git clone git@github.com:<your_github_username>/homework1.git~
+#+BEGIN_SRC sh :exports code
+git clone https@github.com:<your_github_username>/homework1.git
+#+END_SRC
 
 Now you have your own copy of the repo both on your machine and in your github account.
-You can look at any of the files. 
+If you want to work with the files in the ~homework1~ directory, you should change into 
+that directory. To do this you should type:
+
+#+BEGIN_SRC sh :exports code
+cd homework1
+#+END_SRC
+
+In an text editor, you can look at any of the files. You can also list the files by 
+typing either ~ls~ or ~dir~ depending on your operating system.
+
 * Master vs. branch
 You actually have a copy of the master on your machine.  When you add something
 for the first time, you should not add to the master you should make changes to 
@@ -136,12 +178,22 @@ We can see all of the branches by typing:
 The star means that we are still on the master branch.
 
 * Switch branches
-
-To switch branches type:
+Now we are going to begin constructing the changes we want
+incorporated into the main project. In the last section we made a
+branch now we are going to start to change it.  To switch to your branch,
+type:
 
 ~git checkout <first_name>~
 
 * Create a directory
+
+If you listed the files in the homework1 directory, you should see
+that there is a directory called students. You should change
+directories into it by typing:
+
+#+BEGIN_SRC sh :exports code
+cd students
+#+END_SRC
 
 Create a directory with your first and last name from the command line:
 
@@ -154,55 +206,77 @@ just created.
 
 * Add your homework to your branch
 
-To add your homework to your branch.  You will do this by adding all files in the directory
-to your branch by typing:
+Make sure your image file is called your ~firstName_lastName.jpg~ or
+~firstName_lastName.png~.  For example, my photo would be
+~Evan_Misshula.jpg~.
 
-~git add .~
+Next add your homework to your branch.  You will do
+this by adding your image file to your branch by typing:
+
+#+BEGIN_SRC sh :exports code
+git add firstName_lastName.jpg
+#+END_SRC
+
 
 * Commit your local changes
 
 You should save or commit your changes with a message.  Type the following:
 
-~git commit -m "added my homework."~
+#+BEGIN_SRC sh :exports code
+git commit -m "added my homework."
+#+END_SRC
 
-or type:
+To update your copy on github you have to push your changes which are in 
+your firstName branch. Before I show you how to do that, let's make sure
+no one else has pushed changes that will cause a conflict with our changes.
 
-~git commit -m "added my homework and team."~
-
-To update your copy on github you have to push your changes.  This
-only did the merge on the local side.
 * See everyone's changes
 ** Configure an upstream master
 Git does not automatically know where you want to pull from.
 To see where git is pulling from, type:
 
-~git remote -v~
+#+BEGIN_SRC sh :exports code
+git remote -v
+#+END_SRC
+
 
 The "-v" is a common command line flag for verbose.  Because you 
 forked both the (fetch) where you pull from and where you push to
 (push) are the same. Now specify a new upstream repository that will
 be synced by the fork.
 
-~git remote add upstream git://github.com/CSCI391/homework1.git~
+#+BEGIN_SRC sh :exports code
+git remote add upstream git://github.com/CSCI391/homework1.git
+#+END_SRC
 
 ** Sync the fork
-To see everyone's accepted changes to the master, you have to pull the upstream master. This 
-requires a /fetch/ command.  Make sure that you have commited your changes.  Type:
+To see everyone's accepted changes to the master, you have to pull
+from the upstream master. This requires a /fetch/ command.  Make sure
+that you have commited your changes.  Type:
 
-~git fetch upstream~
 
-you have now pulled the changes from my branch to your local machine. The next step is to 
-merge it into your master branch.
+#+BEGIN_SRC sh :exports code
+git fetch upstream
+#+END_SRC
 
-~git checkout master~
 
-and to incorporate the changes on your local master, type:
+You have now pulled the changes from my branch to your local machine
+and onto your ~firstName~ branch. The next step is to merge it into
+your ~firstName~ branch.
 
-~git merge upstream/master~
+#+BEGIN_SRC sh :exports code
+git merge upstream/firstName
+#+END_SRC
 
 You will want to save those to your github account as well.  So to finish, type:
 
-~git push origin master~
+#+BEGIN_SRC sh :exports code
+git push origin firstName
+#+END_SRC
 
-* Thanks
+* Pull request
+
+If you refresh your github page you will see that the repository now
+has two braches.  Switch to the firstName branch and send a pull
+request.
 
